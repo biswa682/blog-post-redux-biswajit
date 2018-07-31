@@ -4,62 +4,67 @@ import './index.css';
 // import App from './App';
 import BlogPostContainer from './BlogPostContainer';
 import registerServiceWorker from './registerServiceWorker';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 const initialState = {
+	_id: new Date().getTime(),
 	todoList : [],
-	getHeader: ""
+	getBlogHeader: "",
+	getBlogDescription: ""
 }
+
 
 const reducer = (state = initialState, action) =>{
 	switch(action.type){
 		case "addItem":
 				let newBlog = {
+					_id: new Date().getTime(),
 					status: false,
-					blogHeader: action.blogHeader,
-					blogDescription: action.blogDescription
+					blogHeader: state.getBlogHeader,
+					blogDescription: state.getBlogDescription
 				}
 				state = {
 					...state,
-					todoList: [...state.todoList].concat(newBlog)
-				} 
+					todoList: [...state.todoList].concat(newBlog),
+					getBlogHeader: "",
+					getBlogDescription: ""
+				}
+				document.getElementById("inputBox").value = "";
+				document.getElementById("textareaBox").value = "";
 			break;
 		case "checkStatus":
 			break;
-		case "deleteItem":
-			break;
-		case "getHeader":
+		case "getBlogHeader":
 				state = {
 					...state,
-					getHeader: action.getHeader
+					getBlogHeader: action.getBlogHeader
+				}
+			break;
+		case "getBlogDescription":
+				state = {
+					...state,
+					getBlogDescription: action.getBlogDescription
+				}
+			break;
+		case "deleteBlogs":
+				let newElement = state.todoList.filter(function(item){
+					return item._id !== Number(action.eventId);
+				});
+				state = {
+					...state,
+					todoList: newElement
 				}
 			break;
 		default:
-			state = this.state
-
+			return state
 	}
 	return state;
 }
 
-const store = createStore(reducer)
+const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
 
-store.subscribe(()=>{
-	console.log("State : ", store.getState());
-});
-
-// store.dispatch({
-// 	type: "addItem",
-// 	blogHeader: "This is the header of the text",
-// 	blogDescription: "This is the description for the text"
-// })
-// store.dispatch({
-// 	type:"getHeader",
-// 	getHeader: "a"
-// })
-// store.dispatch({
-// 	type: "addItem",
-// 	text: "This is a new item"
-// })
-// console.log(store.getState())
+// store.subscribe(()=>{
+// 	console.log("State : ", store.getState());
+// });
 ReactDOM.render(<Provider store={store}><BlogPostContainer/></Provider>, document.getElementById('root'));
 registerServiceWorker();

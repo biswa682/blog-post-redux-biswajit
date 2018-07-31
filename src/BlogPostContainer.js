@@ -1,28 +1,26 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import BlogPostField from './BlogPostField';
-// const getBlogHeader = (event) =>{
-// 	return event.target.value;
-// }
-// const getBlogDescription = (event) =>{
-// 	return event.target.value;
-// }
-
+import ShowListOfBlog from './ShowListOfBlog'
+import { BrowserRouter, Route} from 'react-router-dom';
+import Navigator from "./Navigator";
+import ShowBlogContent from "./ShowBlogContent"
 class BlogPostContainer extends Component{
-	
-	render(){
-		
+	render(){		
 		return(
 			<div>
-				<BlogPostField/>
+				<BrowserRouter>
+					<div>
+					  <Navigator/>
+			          <div>
+				          <Route path="/" component={BlogPostField} exact={true}/>
+				          <Route path="/blogs" component={ShowListOfBlog}/>
+				          <Route path="/blogs/:id" component={ShowBlogContent}/>
+			          </div>
+					</div>
+		        </BrowserRouter>
 			</div>	
 			)
 	}
 }
-
-
-
 export default connect()(BlogPostContainer);
-// export default BlogPostContainer;
-
-// <BlogPostField/>

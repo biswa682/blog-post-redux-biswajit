@@ -3,17 +3,10 @@ import { connect } from 'react-redux';
 
 class BlogPostField extends React.Component{
 	render(){	
-	const getBlogHeader = (event) =>{
-		console.log(event.target.value)
-		return event.target.value;
-	}
-	// const getBlogDescription = (event) =>{
-	// 	return event.target.value;
-	// }
 		return(
 			<div>
-				<input type="text" onChange={(event)=> getBlogHeader(event)}/>
-				<textarea rows="5" cols="15"></textarea>
+				<input id="inputBox" type="text" onChange={(event)=> this.props.getBlogHeader(event)}/>
+				<textarea id="textareaBox" rows="5" cols="15" onChange={(event)=> this.props.getBlogDescription(event)}></textarea>
 				<button onClick={()=>this.props.addItem()}>Submit</button>
 			</div>
 		)
@@ -29,11 +22,20 @@ const mapDispatchToProps = (dispatch) =>{
 	return{
 		addItem: ()=>{
 			dispatch({
-				type: "addItem",
-				blogHeader: "blogHeader",
-				blogDescription: "blogDescription"
+				type: "addItem"
 			})
-			console.log("addItem")
+		},
+		getBlogHeader: (event) =>{
+			dispatch({
+				type: "getBlogHeader",
+				getBlogHeader: event.target.value
+			})
+		},
+		getBlogDescription: (event) =>{
+			dispatch({
+				type: "getBlogDescription",
+				getBlogDescription: event.target.value
+			})	
 		}
 	}
 }
