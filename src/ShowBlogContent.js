@@ -1,18 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 class ShowBlogContent extends React.Component{
 	render(){
 		let selectedBlog = 0;
-		for(let item of this.props.state.todoList){
+		for(let item of this.props.state.blog){
 			if(item._id === Number(this.props.match.params.id))
 				selectedBlog = item
 		}
-		console.log(selectedBlog)
 		return(
 			<div>
 				<span>Blog</span>	
 				<h2>{selectedBlog.blogHeader}</h2>
  				<h5>{selectedBlog.blogDescription}</h5>
+ 				<Link to={`/blogs/${this.props.match.params.id}/edit`}><button>Edit</button></Link>
 			</div>
 			)
 	}
@@ -22,7 +23,6 @@ const mapStateToProps =(state) => {
 		state: state
 	}
 }
+
 export default connect(mapStateToProps)(ShowBlogContent)
 
-// <h2>{selectedBlog[0].blogHeader}</h2>
-// 				<h5>{selectedBlog[0].blogDescription}</h5>

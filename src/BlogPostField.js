@@ -5,8 +5,8 @@ class BlogPostField extends React.Component{
 	render(){	
 		return(
 			<div>
-				<input id="inputBox" type="text" onChange={(event)=> this.props.getBlogHeader(event)}/>
-				<textarea id="textareaBox" rows="5" cols="15" onChange={(event)=> this.props.getBlogDescription(event)}></textarea>
+				<input id="inputBox" type="text"/>
+				<textarea id="textareaBox" rows="5" cols="15"></textarea>
 				<button onClick={()=>this.props.addItem()}>Submit</button>
 			</div>
 		)
